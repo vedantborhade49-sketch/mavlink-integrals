@@ -42,3 +42,7 @@ PI_IP = "127.0.0.1"
 CONNECT_TIMEOUT = 5      # Seconds to wait for connection
 RECONNECT_DELAY = 3      # Seconds before retrying connection
 SOCKET_TIMEOUT = 5       # General socket timeout
+
+# Telemetry Settings
+TELEMETRY_SEND_INTERVAL = 0.2    # 5 updates per second
+TELEMETRY_STALE_TIMEOUT = 2.0    # 2 seconds without updates is stale

@@ -8,12 +8,22 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import config
 from network.protocol import encode_message, MessageBuffer
+from vehicle_state import VehicleState
 
 class TCPClient:
     def __init__(self):
         self.socket = None
         self.connected = False
         self.running = False
+        
+        # STEP 3: Local normalized vehicle state
+        self.vehicle_state = VehicleState()
+
+    def get_vehicle_state(self):
+        """
+        Returns the latest normalized vehicle state received from the Raspberry Pi.
+        """
+        return self.vehicle_state
 
     def start(self):
         self.running = True
@@ -75,16 +85,25 @@ class TCPClient:
     def _handle_message(self, msg):
         msg_type = msg.get("type", "unknown")
         
-        if msg_type == "heartbeat":
-            print(f"[INFO] Received heartbeat from server (ts: {msg.get('timestamp')})")
-            # Send ACK
+        if msg_type == "telemetry":
+            data = msg.get("data")
+            if data:
+                self.vehicle_state.update_from_dict(data)
+                print(f"[INFO] Vehicle state updated | Mode: {self.vehicle_state.flight_mode} | Armed: {self.vehicle_state.armed}")
+                
+        elif msg_type == "status":
+            print(f"[INFO] Server Status: {msg.get('data')}")
+            
+        elif msg_type == "heartbeat":
+            # Send ACK silently without spamming log
             ack_msg = {"type": "ack", "message_id": msg.get("timestamp")}
             self.send_message(ack_msg)
-            print("[INFO] Sent ACK")
+            
         elif msg_type == "ack":
             pass
+            
         else:
-            print(f"[INFO] Received message: {msg}")
+            print(f"[INFO] Received unknown message type: {msg_type}")
 
     def send_message(self, data_dict):
         if self.connected and self.socket:
@@ -117,6 +136,10 @@ class TCPClient:
             except:
                 pass
             self.socket = None
+            
+        # Optional: Mark local vehicle state as disconnected if TCP dies
+        # (Though we might want to keep the last known state)
+        # self.vehicle_state.connected = False
 
     def stop(self):
         self.running = False
