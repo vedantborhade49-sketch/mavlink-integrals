@@ -24,3 +24,21 @@ RECONNECT_DELAY = 3
 # Instead, it will generate fake MAVLink messages to test the telemetry parsing.
 # Physical hardware mode remains: TEST_MODE = False
 TEST_MODE = True
+
+# ==========================================
+# STEP 2: TCP NETWORK CONFIGURATION
+# ==========================================
+
+# Server settings (Raspberry Pi)
+PI_HOST = "0.0.0.0"      # Bind to all interfaces
+PI_PORT = 5000           # TCP Port
+
+# Client settings (Computing Device)
+# Change this to the actual Raspberry Pi IP address when testing over Wi-Fi/Ethernet
+# For local testing on the same machine, use "127.0.0.1"
+PI_IP = "127.0.0.1"      
+
+# Connection settings
+CONNECT_TIMEOUT = 5      # Seconds to wait for connection
+RECONNECT_DELAY = 3      # Seconds before retrying connection
+SOCKET_TIMEOUT = 5       # General socket timeout
