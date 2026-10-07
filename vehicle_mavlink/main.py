@@ -63,14 +63,14 @@ def main():
         while True:
             # 1. Attempt connection
             if not conn.connect():
-                print(f"[WARNING] MAVLink connection lost. Retrying in {config.RECONNECT_DELAY} seconds...")
+                print(f"[WARNING] Waiting for real MAVLink heartbeat. Retrying in {config.RECONNECT_DELAY} seconds...")
                 time.sleep(config.RECONNECT_DELAY)
                 continue
                 
             # 2. Wait for heartbeat
             if not conn.wait_for_heartbeat():
                 conn.close()
-                print(f"[WARNING] MAVLink connection lost. Retrying in {config.RECONNECT_DELAY} seconds...")
+                print(f"[WARNING] Waiting for real MAVLink heartbeat. Retrying in {config.RECONNECT_DELAY} seconds...")
                 time.sleep(config.RECONNECT_DELAY)
                 continue
                 

@@ -19,11 +19,7 @@ HEARTBEAT_TIMEOUT = 10
 # Delay (in seconds) before attempting to reconnect after a failure.
 RECONNECT_DELAY = 3
 
-# TEST MODE
-# When set to True, the script will not connect to a physical serial port.
-# Instead, it will generate fake MAVLink messages to test the telemetry parsing.
-# Physical hardware mode remains: TEST_MODE = False
-TEST_MODE = True
+
 
 # ==========================================
 # STEP 2: TCP NETWORK CONFIGURATION

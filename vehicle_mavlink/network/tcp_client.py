@@ -89,7 +89,10 @@ class TCPClient:
             data = msg.get("data")
             if data:
                 self.vehicle_state.update_from_dict(data)
-                print(f"[INFO] Vehicle state updated | Mode: {self.vehicle_state.flight_mode} | Armed: {self.vehicle_state.armed}")
+                if not self.vehicle_state.connected:
+                    print("[INFO] Vehicle telemetry: UNAVAILABLE")
+                else:
+                    print(f"[INFO] Vehicle telemetry: AVAILABLE | Mode: {self.vehicle_state.flight_mode} | Armed: {self.vehicle_state.armed}")
                 
         elif msg_type == "status":
             print(f"[INFO] Server Status: {msg.get('data')}")

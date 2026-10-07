@@ -3,47 +3,6 @@ import time
 from pymavlink import mavutil
 import config
 
-class MockMAVLinkConnection:
-    """A mock connection for testing without physical hardware."""
-    def __init__(self):
-        self.start_time = time.time()
-        self.last_msg_time = 0
-        self.msg_index = 0
-        self.target_system = 1
-        self.target_component = 1
-        
-    class MockMessage:
-        def __init__(self, type_name, **kwargs):
-            self._type = type_name
-            for k, v in kwargs.items():
-                setattr(self, k, v)
-        def get_type(self):
-            return self._type
-
-    def recv_match(self, type=None, blocking=False, timeout=0):
-        # Handle heartbeat wait differently from telemetry loop
-        if type == 'HEARTBEAT' and blocking:
-            time.sleep(1) # Simulate connection delay
-            return self.MockMessage("HEARTBEAT", type=2, autopilot=3, base_mode=81, custom_mode=0, system_status=4)
-            
-        current_time = time.time()
-        if current_time - self.last_msg_time < 0.2: # Rate limit mock messages (5Hz)
-            return None
-        self.last_msg_time = current_time
-        
-        msgs = [
-            self.MockMessage("HEARTBEAT", type=2, autopilot=3, base_mode=81, custom_mode=0, system_status=4),
-            self.MockMessage("GLOBAL_POSITION_INT", lat=377749000, lon=-1224194000, alt=10000, relative_alt=5000),
-            self.MockMessage("ATTITUDE", roll=0.1, pitch=-0.05, yaw=1.5),
-            self.MockMessage("SYS_STATUS", voltage_battery=12400, current_battery=1500, battery_remaining=95)
-        ]
-        
-        msg = msgs[self.msg_index]
-        self.msg_index = (self.msg_index + 1) % len(msgs)
-        return msg
-        
-    def close(self):
-        pass
 
 class MAVLinkConnection:
     def __init__(self):
@@ -53,11 +12,6 @@ class MAVLinkConnection:
         """
         Attempts to open the serial connection.
         """
-        if config.TEST_MODE:
-            print("[INFO] TEST_MODE is True. Using Mock MAVLink connection.")
-            self.master = MockMAVLinkConnection()
-            return True
-
         print(f"[INFO] Attempting to open serial connection on {config.SERIAL_PORT} at {config.BAUD_RATE} baud...")
         try:
             # Use mavutil.mavlink_connection to establish the connection
