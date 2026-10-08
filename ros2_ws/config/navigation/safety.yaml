@@ -1,0 +1,16 @@
+# aerosar_navigation safety configuration
+
+safety:
+  requirements:
+    required_localization: true
+    required_map: true
+    required_communication: true
+    
+  thresholds:
+    minimum_data_freshness_sec: 2.0
+    
+  # Actions when safety is breached
+  failsafe_action: "SAFETY_HOLD" 
+  
+  # Note: ArduPilot's own failsafe mechanisms remain authoritative.
+  # The navigation manager merely stops sending high-level commands if communication is lost.

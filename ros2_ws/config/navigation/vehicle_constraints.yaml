@@ -1,0 +1,14 @@
+# aerosar_navigation vehicle_constraints configuration
+# DO NOT populate with arbitrary numbers. Wait for actual hardware validation.
+
+constraints:
+  # All values below require hardware validation
+  max_horizontal_speed: "PENDING_VALIDATION"
+  max_vertical_speed: "PENDING_VALIDATION"
+  max_climb_rate: "PENDING_VALIDATION"
+  max_descent_rate: "PENDING_VALIDATION"
+  min_altitude: "PENDING_VALIDATION"
+  max_altitude: "PENDING_VALIDATION"
+  min_turn_radius: "PENDING_VALIDATION"
+  max_acceleration: "PENDING_VALIDATION"
+  safety_margin: "PENDING_VALIDATION"

@@ -1,0 +1,24 @@
+# aerosar_localization configuration
+
+localization:
+  # Strategy: Fused state from Flight Controller (ArduPilot EKF)
+  # Translates ArduPilot telemetry directly into ROS standard odometry.
+  # Do NOT generate fake pose if real sensors are unavailable.
+
+  input_topics:
+    vehicle_state: "/aerosar/vehicle/state"
+    
+  output_topics:
+    odom: "/aerosar/localization/odom"
+    imu: "/aerosar/sensors/imu"
+    gps: "/aerosar/sensors/gps"
+
+  frames:
+    odom_frame: "odom"
+    base_frame: "base_link"
+    
+  # For future use, if a secondary EKF (e.g. robot_localization) is needed to fuse visual odometry
+  secondary_ekf:
+    enabled: false
+    package: "robot_localization"
+    # Requires exact covariance tuning once actual sensors are integrated

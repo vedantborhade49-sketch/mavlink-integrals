@@ -1,0 +1,22 @@
+# aerosar_navigation planner configuration
+# Hardware and exact environment are unknown, so parameters are left as placeholders.
+
+planner:
+  planner_type: "NOT_YET_SELECTED" # Options: A*, RRT*, D* Lite, Nav2, etc.
+  planning_frequency: 1.0 # Hz
+  
+  topics:
+    map_topic: "/aerosar/slam/map"
+    pose_topic: "/aerosar/localization/odom"
+    goal_topic: "/aerosar/navigation/goal"
+    path_topic: "/aerosar/navigation/path"
+    status_topic: "/aerosar/navigation/status"
+    command_topic: "/aerosar/navigation/command"
+    
+  map:
+    # AEROSAR is a flying drone.
+    # Planners need to support X, Y, Z or 2.5D obstacle clearance.
+    representation_required: "nav_msgs/OccupancyGrid" # Or PointCloud2/Octomap
+    
+  obstacle_clearance:
+    dynamic_update: true

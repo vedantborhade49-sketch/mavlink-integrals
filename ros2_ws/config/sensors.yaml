@@ -1,0 +1,36 @@
+# aerosar_sensors configuration
+# ROS environment is pending. These are architectural placeholders.
+
+camera:
+  # SENSOR MODEL REQUIRED: e.g., "Intel RealSense D435i", "Raspberry Pi Camera V3"
+  model: "NOT YET CONFIRMED"
+  
+  # DRIVER REQUIRED: e.g., "realsense2_camera", "v4l2_camera"
+  driver_package: "NOT YET CONFIRMED"
+  
+  # TOPIC REQUIRED
+  image_topic: "/aerosar/sensors/camera/image_raw"
+  info_topic: "/aerosar/sensors/camera/camera_info"
+  
+  # FRAME REQUIRED
+  frame_id: "camera_link"
+  
+  # Expected publish rate (Hz)
+  update_rate: 30.0
+
+lidar:
+  # SENSOR MODEL REQUIRED: e.g., "RPLidar A1", "Ouster OS1"
+  model: "NOT CONNECTED"
+  driver_package: "NOT CONNECTED"
+  topic: "/aerosar/sensors/lidar/scan"
+  # Type could be LaserScan or PointCloud2
+  message_type: "NOT YET CONFIRMED"
+  frame_id: "lidar_link"
+  update_rate: 10.0
+
+fc_telemetry:
+  # Handled by ArduPilot / vehicle_mavlink
+  imu_topic: "/aerosar/sensors/imu"
+  gps_topic: "/aerosar/sensors/gps"
+  vehicle_state_topic: "/aerosar/vehicle/state"
+  update_rate: 10.0

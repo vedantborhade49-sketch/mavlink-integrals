@@ -1,0 +1,28 @@
+# aerosar_slam configuration
+
+slam:
+  # SLAM package: e.g., "rtabmap_ros", "orb_slam2_ros"
+  # SENSOR INPUT REQUIRED before final selection.
+  package: "NOT YET CONFIRMED"
+  
+  # Type: "visual", "lidar_2d", "lidar_3d"
+  type: "visual"
+  
+  input_topics:
+    camera: "/aerosar/sensors/camera/image_raw"
+    camera_info: "/aerosar/sensors/camera/camera_info"
+    odom: "/aerosar/localization/odom"
+    
+  output_topics:
+    map: "/aerosar/slam/map"
+    pose: "/aerosar/slam/pose"
+    
+  # Map representation planned:
+  # A 2D Occupancy Grid is standard for lateral collision avoidance,
+  # but depending on the camera (e.g. Depth), a 3D PointCloud or OctoMap might be generated.
+  map_representation: "nav_msgs/OccupancyGrid"
+  
+  frames:
+    map_frame: "map"
+    odom_frame: "odom"
+    base_frame: "base_link"
